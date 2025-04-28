@@ -17,7 +17,6 @@ public class User implements UserRepository {
     @Override
     public boolean isLogin(String username, String password) {
         DBContext db = DBContext.getInstance();
-        boolean isExist = false;
         try {
             String sql = """
                          select * from users 
@@ -26,11 +25,9 @@ public class User implements UserRepository {
             PreparedStatement st = db.getConnection().prepareStatement(sql);
             st.setString(1, username);
             st.setString(2, password);
-            isExist = st.execute();
+            return st.executeQuery().next();
         } catch (Exception e) {
-            return isExist;
+            return false;
         }
-        return isExist;
     }
-
 }
