@@ -10,12 +10,13 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import repository.User;
 
 /**
  *
  * @author quann
  */
-public class NewServlet extends HttpServlet {
+public class LoginServlet extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -65,7 +66,15 @@ public class NewServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        processRequest(request, response);
+        String username = request.getParameter("username");
+        String password = request.getParameter("password");
+        PrintWriter out = response.getWriter();
+        User user = new User();
+        if(user.isLogin(username, password)){
+            out.print("ok");
+        }else{
+            out.print("cook");
+        }
     }
 
     /** 
