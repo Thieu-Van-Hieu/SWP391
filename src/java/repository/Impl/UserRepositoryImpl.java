@@ -2,17 +2,18 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package repository;
+package repository.Impl;
 
-import repository.Impl.UserRepository;
+import repository.UserRepository;
 import utils.DBContext;
 import java.sql.*;
+import repository.UserRepository;
 
 /**
  *
  * @author ngoct
  */
-public class User implements UserRepository {
+public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public boolean isLogin(String username, String password) {

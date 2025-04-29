@@ -1,3 +1,5 @@
+package controller;
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
@@ -10,7 +12,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import repository.User;
+import repository.Impl.UserRepositoryImpl;
 
 /**
  *
@@ -69,7 +71,7 @@ public class LoginServlet extends HttpServlet {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
         PrintWriter out = response.getWriter();
-        User user = new User();
+        UserRepositoryImpl user = new UserRepositoryImpl();
         if(user.isLogin(username, password)){
             out.print("ok");
         }else{
