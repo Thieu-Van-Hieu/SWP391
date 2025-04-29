@@ -12,6 +12,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.Map;
+import user.converter.LoginRequestConverter;
 import user.dto.LoginRequestDTO;
 import user.factory.service.UserServiceFactory;
 import utils.RequestMapper;
@@ -74,12 +75,12 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        LoginRequestDTO loginRequest = RequestMapper.mapToObject(request, LoginRequestDTO.class);
-        boolean isCheck  = UserServiceFactory.getUserService().isLogin(loginRequest);
+        LoginRequestDTO loginRequest = LoginRequestConverter.fromHttpServletRequest(request);
+        boolean isCheck = UserServiceFactory.getUserService().isLogin(loginRequest);
         PrintWriter out = response.getWriter();
-        if(isCheck){
+        if (isCheck) {
             out.print("ok");
-        }else{
+        } else {
             out.print("cook");
         }
     }
