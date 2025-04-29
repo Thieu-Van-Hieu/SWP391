@@ -8,7 +8,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import java.lang.reflect.Field;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import myexception.RequestMappingException;
+import myexception.MappingException;
 
 public class RequestMapper {
 
@@ -43,7 +43,7 @@ public class RequestMapper {
             }
             return instance;
         } catch (Exception e) {
-            throw new RequestMappingException("Error mapping request parameters to object", e);
+            throw new MappingException("Error mapping request parameters to object", e);
         }
     }
 }

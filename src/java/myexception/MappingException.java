@@ -4,13 +4,13 @@
  */
 package myexception;
 
-public class RequestMappingException extends RuntimeException {
+public class MappingException extends RuntimeException {
 
-    public RequestMappingException(String message) {
+    public MappingException(String message) {
         super(message);
     }
 
-    public RequestMappingException(String message, Throwable cause) {
+    public MappingException(String message, Throwable cause) {
         super(message, cause);
     }
 }
