@@ -35,11 +35,7 @@ public class DBContext {
     }
 
     public DBContext() {
-//         this("jdbc:sqlserver://localhost:1433;databaseName=FPTUsersDB;TrustServerCertificate=true;",
-//         "sa", "sa");
          this("jdbc:sqlserver://localhost:1433;databaseName=FPTUsersDB;TrustServerCertificate=true;",
          "sa","123");
-//        this("jdbc:sqlserver://localhost:1433;databaseName=FPTUsersDB;TrustServerCertificate=true;",
-//                "sa", "123");
     }
 }

@@ -2,12 +2,12 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package repository.Impl;
+package user.repository.Impl;
 
-import repository.UserRepository;
 import config.DBContext;
 import java.sql.*;
-import repository.UserRepository;
+import user.dto.LoginRequestDTO;
+import user.repository.UserRepository;
 
 /**
  *
@@ -16,7 +16,7 @@ import repository.UserRepository;
 public class UserRepositoryImpl implements UserRepository {
 
     @Override
-    public boolean isLogin(String username, String password) {
+    public boolean isLogin(LoginRequestDTO loginRequestDTO) {
         DBContext db = DBContext.getInstance();
         try {
             String sql = """
@@ -24,8 +24,8 @@ public class UserRepositoryImpl implements UserRepository {
                          where username = ? and password = ?
                          """;
             PreparedStatement st = db.getConnection().prepareStatement(sql);
-            st.setString(1, username);
-            st.setString(2, password);
+            st.setString(1, loginRequestDTO.getUsername());
+            st.setString(2, loginRequestDTO.getPassword());
             return st.executeQuery().next();
         } catch (Exception e) {
             return false;

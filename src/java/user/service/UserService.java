@@ -4,10 +4,12 @@
  */
 package user.service;
 
+import user.dto.LoginRequestDTO;
+
 /**
  *
  * @author ngoct
  */
-public interface NewInterface {
-    
+public interface UserService {
+    boolean isLogin(LoginRequestDTO loginRequestDTO);
 }
