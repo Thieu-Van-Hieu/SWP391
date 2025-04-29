@@ -7,7 +7,7 @@ package utils;
 import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
-import myexception.MappingException;
+import exceptions.MappingException;
 
 public class Mapper {
 

@@ -8,7 +8,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import java.lang.reflect.Field;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import myexception.MappingException;
+import exceptions.MappingException;
 
 public class RequestMapper {
 

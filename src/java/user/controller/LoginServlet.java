@@ -10,12 +10,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.util.HashMap;
-import java.util.Map;
-import user.converter.LoginRequestConverter;
-import user.dto.LoginRequestDTO;
-import user.factory.service.UserServiceFactory;
-import utils.RequestMapper;
+import user.facade.UserFacade;
 
 /**
  *
@@ -75,14 +70,13 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        LoginRequestDTO loginRequest = LoginRequestConverter.fromHttpServletRequest(request);
-        boolean isCheck = UserServiceFactory.getUserService().isLogin(loginRequest);
+        boolean isCheck = UserFacade.isLogin(request);
         PrintWriter out = response.getWriter();
         if (isCheck) {
             out.print("ok");
         } else {
             out.print("cook");
-        }
+        }    
     }
 
     /**
