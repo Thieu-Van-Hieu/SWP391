@@ -5,7 +5,7 @@
 package repository.Impl;
 
 import repository.UserRepository;
-import utils.DBContext;
+import config.DBContext;
 import java.sql.*;
 import repository.UserRepository;
 
