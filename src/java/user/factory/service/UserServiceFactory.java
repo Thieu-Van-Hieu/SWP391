@@ -4,7 +4,7 @@
  */
 package user.factory.service;
 import user.service.UserService;
-import user.service.Impl.UserServiceImpl;
+import user.service.impl.UserServiceImpl;
 /**
  *
  * @author ngoct
