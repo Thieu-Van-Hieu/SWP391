@@ -6,7 +6,7 @@ package user.service.impl;
 
 import user.dto.LoginRequestDTO;
 import user.factory.repository.UserRepositoryFactory;
-import user.service.UserService;
+import user.service.itf.UserService;
 
 /**
  *

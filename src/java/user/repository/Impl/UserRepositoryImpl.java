@@ -7,7 +7,7 @@ package user.repository.impl;
 import config.DBContext;
 import java.sql.*;
 import user.dto.LoginRequestDTO;
-import user.repository.UserRepository;
+import user.repository.itf.UserRepository;
 
 /**
  *
