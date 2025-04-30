@@ -71,10 +71,11 @@ public class LoginServlet extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+        throws ServletException, IOException {
         LoginResponseDTO user = UserFacade.isLogin(request);
         HttpSession session = request.getSession();
-        System.out.println(user);
+        PrintWriter out = response.getWriter();
+        out.print(user.getUsername());
     }
 
     /**
