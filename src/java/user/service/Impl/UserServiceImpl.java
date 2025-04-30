@@ -4,7 +4,10 @@
  */
 package user.service.impl;
 
-import user.dto.LoginRequestDTO;
+import user.converter.login.LoginResponseConverter;
+import user.dto.login.LoginRequestDTO;
+import user.dto.login.LoginResponseDTO;
+import user.entity.UserEntity;
 import user.factory.repository.UserRepositoryFactory;
 import user.service.itf.UserService;
 
@@ -13,8 +16,11 @@ import user.service.itf.UserService;
  * @author ngoct
  */
 public class UserServiceImpl implements UserService {
+
     @Override
-    public boolean isLogin(LoginRequestDTO loginRequestDTO) {
-        return UserRepositoryFactory.getUserRepository().isLogin(loginRequestDTO);
+    public LoginResponseDTO isLogin(LoginRequestDTO loginRequestDTO) {
+        UserEntity userEntity = UserRepositoryFactory.getUserRepository().isLogin(loginRequestDTO);
+        LoginResponseDTO result = LoginResponseConverter.toLoginResponDTOConverter(userEntity);
+        return result;
     }
 }

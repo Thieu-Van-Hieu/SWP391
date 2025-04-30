@@ -6,7 +6,8 @@ package user.repository.impl;
 
 import config.DBContext;
 import java.sql.*;
-import user.dto.LoginRequestDTO;
+import user.dto.login.LoginRequestDTO;
+import user.entity.UserEntity;
 import user.repository.itf.UserRepository;
 
 /**
@@ -16,8 +17,9 @@ import user.repository.itf.UserRepository;
 public class UserRepositoryImpl implements UserRepository {
 
     @Override
-    public boolean isLogin(LoginRequestDTO loginRequestDTO) {
+    public UserEntity isLogin(LoginRequestDTO loginRequestDTO) {
         DBContext db = DBContext.getInstance();
+        UserEntity result = new UserEntity();
         try {
             String sql = """
                          select * from users 
@@ -26,9 +28,15 @@ public class UserRepositoryImpl implements UserRepository {
             PreparedStatement st = db.getConnection().prepareStatement(sql);
             st.setString(1, loginRequestDTO.getUsername());
             st.setString(2, loginRequestDTO.getPassword());
-            return st.executeQuery().next();
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                result.setUserName(rs.getString("username"));
+                result.setId(rs.getInt("id"));
+                result.setRole(rs.getInt("role"));
+            }
         } catch (Exception e) {
-            return false;
+            return new UserEntity();
         }
+        return result;
     }
 }
