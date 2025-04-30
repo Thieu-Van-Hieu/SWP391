@@ -24,6 +24,4 @@ public class Target1 {
 	public String getY() {
 		return y;
 	}
-	
-	
 }
