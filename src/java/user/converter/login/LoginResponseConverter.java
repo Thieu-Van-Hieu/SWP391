@@ -15,13 +15,13 @@ import utils.Mapper;
  * @author ngoct
  */
 public class LoginResponseConverter {
-    
+
     public static LoginResponseDTO toLoginResponDTOConverter(UserEntity userEntity) {
         UserInformationEntity userInformationEntity = UserRepositoryFactory.getUserInformationRepository().getInformationById(userEntity.getId());
         LoginResponseDTO result = Mapper.mapToObject(userInformationEntity, LoginResponseDTO.class);
         result.setUsername(userEntity.getUserName());
         result.setRoleId(userEntity.getRole());
         return result;
-        
+
     }
 }
