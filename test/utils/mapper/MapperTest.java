@@ -6,7 +6,6 @@ package utils.mapper;
 
 import myexception.MappingException;
 import org.junit.Test;
-import static org.junit.Assert.*;
 import utils.Mapper;
 
 /**

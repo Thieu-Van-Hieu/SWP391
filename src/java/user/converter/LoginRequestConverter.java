@@ -8,12 +8,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import user.dto.LoginRequestDTO;
 import utils.RequestMapper;
 
-/**
- *
- * @author ngoct
- */
 public class LoginRequestConverter {
-
     public static LoginRequestDTO fromHttpServletRequest(HttpServletRequest request) {
         return RequestMapper.mapToObject(request, LoginRequestDTO.class);
     }
