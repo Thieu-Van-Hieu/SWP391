@@ -4,7 +4,8 @@
  */
 package user.service.itf;
 
-import user.dto.LoginRequestDTO;
+import user.dto.login.LoginRequestDTO;
+import user.dto.login.LoginResponseDTO;
 
 /**
  *
@@ -12,5 +13,6 @@ import user.dto.LoginRequestDTO;
  */
 public interface UserService {
 
-    boolean isLogin(LoginRequestDTO loginRequestDTO);
+    LoginResponseDTO isLogin(LoginRequestDTO loginRequestDTO);
+
 }

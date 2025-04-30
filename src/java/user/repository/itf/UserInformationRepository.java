@@ -4,16 +4,13 @@
  */
 package user.repository.itf;
 
-import user.dto.login.LoginRequestDTO;
-import user.entity.UserEntity;
 import user.entity.UserInformationEntity;
 
 /**
  *
  * @author ngoct
  */
-public interface UserRepository {
+public interface UserInformationRepository {
 
-    UserEntity isLogin(LoginRequestDTO loginRequestDTO);
-
+    UserInformationEntity getInformationById(int id);
 }
