@@ -9,6 +9,7 @@ import user.dto.LoginRequestDTO;
 import utils.RequestMapper;
 
 public class LoginRequestConverter {
+
     public static LoginRequestDTO toConverterLogin(HttpServletRequest request) {
         return RequestMapper.mapToObject(request, LoginRequestDTO.class);
     }

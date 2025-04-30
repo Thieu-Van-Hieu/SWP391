@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package config;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 
@@ -35,7 +36,7 @@ public class DBContext {
     }
 
     public DBContext() {
-         this("jdbc:sqlserver://localhost:1433;databaseName=FPTUsersDB;TrustServerCertificate=true;",
-         "sa","123");
+        this("jdbc:sqlserver://localhost:1433;databaseName=FPTUsersDB;TrustServerCertificate=true;",
+                "sa", "123");
     }
 }

@@ -9,6 +9,7 @@ package user.entity;
  * @author ngoct
  */
 public class UserEntity {
+
     private int id;
     private String userName;
     private String password;
@@ -45,5 +46,5 @@ public class UserEntity {
     public void setRole(int role) {
         this.role = role;
     }
-    
+
 }

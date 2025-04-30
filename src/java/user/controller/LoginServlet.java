@@ -76,7 +76,7 @@ public class LoginServlet extends HttpServlet {
             out.print("ok");
         } else {
             out.print("cook");
-        }    
+        }
     }
 
     /**

@@ -11,5 +11,6 @@ import user.dto.LoginRequestDTO;
  * @author ngoct
  */
 public interface UserRepository {
+
     boolean isLogin(LoginRequestDTO loginRequestDTO);
 }

@@ -11,5 +11,6 @@ import user.dto.LoginRequestDTO;
  * @author ngoct
  */
 public interface UserService {
+
     boolean isLogin(LoginRequestDTO loginRequestDTO);
 }
