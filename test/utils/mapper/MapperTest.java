@@ -18,9 +18,8 @@ public class MapperTest {
 	@Test
     public void testSameType() {
         Source source = new Source(10, "Hello", 3.14);
-        Target1 target = new Target1();
 
-        Mapper.map(source, target);
+		Target1 target = Mapper.mapToObject(source, Target1.class);
 
         assertEquals(10, target.getX());
         assertEquals("Hello", target.getY());
@@ -29,9 +28,8 @@ public class MapperTest {
     @Test
     public void testIntToDouble() {
         Source source = new Source(10, "Hello", 3.14);
-        Target2 target = new Target2();
-
-        Mapper.map(source, target);
+		
+		Target2 target = Mapper.mapToObject(source, Target2.class);
 
         assertEquals(10, target.getX(), 0.0);
         assertEquals("Hello", target.getY());
@@ -40,10 +38,9 @@ public class MapperTest {
     @Test
     public void testDoubleToString() {
         Source source = new Source(10, "Hello", 3.14);
-        Target3 target = new Target3();
 
         assertThrows(MappingException.class, () -> {
-            Mapper.map(source, target);
+			Target3 target = Mapper.mapToObject(source, Target3.class);
         });
     }
 	
