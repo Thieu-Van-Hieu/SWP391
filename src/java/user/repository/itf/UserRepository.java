@@ -6,7 +6,6 @@ package user.repository.itf;
 
 import user.dto.login.LoginRequestDTO;
 import user.entity.UserEntity;
-import user.entity.UserInformationEntity;
 
 /**
  *
