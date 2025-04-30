@@ -2,10 +2,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package user.converter;
+package user.converter.register;
 
 import jakarta.servlet.http.HttpServletRequest;
-import user.dto.RegisterDTO;
+import user.dto.register.RegisterDTO;
 import utils.RequestMapper;
 
 /**
@@ -15,8 +15,9 @@ import utils.RequestMapper;
 public class RegisterRequestConverter {
 
     public static RegisterDTO toConvertBasicInformation(HttpServletRequest request) {
-        RegisterDTO temp = RequestMapper.mapToObject(request, RegisterDTO.class);
-        return temp;
+        RegisterDTO basicInformation = RequestMapper.mapToObject(request, RegisterDTO.class);
+
+        return basicInformation;
     }
 
 }

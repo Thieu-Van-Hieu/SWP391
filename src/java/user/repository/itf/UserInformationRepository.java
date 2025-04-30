@@ -2,17 +2,15 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Interface.java to edit this template
  */
-package user.service.itf;
+package user.repository.itf;
 
-import user.dto.login.LoginRequestDTO;
-import user.dto.login.LoginResponseDTO;
+import user.entity.UserInformationEntity;
 
 /**
  *
  * @author ngoct
  */
-public interface UserService {
+public interface UserInformationRepository {
 
-    LoginResponseDTO isLogin(LoginRequestDTO loginRequestDTO);
-
+    UserInformationEntity getInformationById(int id);
 }

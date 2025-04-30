@@ -4,7 +4,8 @@
  */
 package user.repository.itf;
 
-import user.dto.LoginRequestDTO;
+import user.dto.login.LoginRequestDTO;
+import user.entity.UserEntity;
 
 /**
  *
@@ -12,5 +13,6 @@ import user.dto.LoginRequestDTO;
  */
 public interface UserRepository {
 
-    boolean isLogin(LoginRequestDTO loginRequestDTO);
+    UserEntity isLogin(LoginRequestDTO loginRequestDTO);
+
 }

@@ -5,10 +5,11 @@
 package user.facade;
 
 import jakarta.servlet.http.HttpServletRequest;
-import user.converter.LoginRequestConverter;
-import user.converter.RegisterRequestConverter;
-import user.dto.LoginRequestDTO;
-import user.dto.RegisterDTO;
+import user.converter.login.LoginRequestConverter;
+import user.converter.register.RegisterRequestConverter;
+import user.dto.login.LoginRequestDTO;
+import user.dto.login.LoginResponseDTO;
+import user.dto.register.RegisterDTO;
 import user.factory.service.UserServiceFactory;
 
 /**
@@ -17,14 +18,13 @@ import user.factory.service.UserServiceFactory;
  */
 public class UserFacade {
 
-    public static boolean isLogin(HttpServletRequest request) {
+    public static LoginResponseDTO isLogin(HttpServletRequest request) {
         LoginRequestDTO loginRequest = LoginRequestConverter.toConverterLogin(request);
         return UserServiceFactory.getUserService().isLogin(loginRequest);
     }
 
-    public static boolean isRegister(HttpServletRequest request) {
+    public static RegisterDTO isRegister(HttpServletRequest request) {
         RegisterDTO registerDTO = RegisterRequestConverter.toConvertBasicInformation(request);
-
-        return true;
+        return registerDTO;
     }
 }

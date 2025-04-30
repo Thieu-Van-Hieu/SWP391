@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package user.controller;
+package user.controller.login;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -10,7 +10,9 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import user.facade.UserFacade;
+import user.dto.login.LoginResponseDTO;
 
 /**
  *
@@ -70,13 +72,9 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        boolean isCheck = UserFacade.isLogin(request);
-        PrintWriter out = response.getWriter();
-        if (isCheck) {
-            out.print("ok");
-        } else {
-            out.print("cook");
-        }
+        LoginResponseDTO user = UserFacade.isLogin(request);
+        HttpSession session = request.getSession();
+        System.out.println(user);
     }
 
     /**
