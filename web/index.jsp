@@ -1,16 +1,18 @@
-<!DOCTYPE html>
-<!--
-Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
-Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit this template
--->
+<%-- 
+    Document   : index
+    Created on : Apr 30, 2025, 10:56:41 AM
+    Author     : ngoct
+--%>
+
 <html>
     <head>
         <title>TODO supply a title</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
     </head>
     <body>
-       <center>
+    <center>
         <form action="login" method="post">
             <table>
                 <tr>
@@ -23,9 +25,10 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                 </tr>
                 <tr>
                     <td><input type="submit" name="name"></td>
+                    <td><a href="${pageContext.request.contextPath}/view/register.jsp">register</a></td>
                 </tr>
             </table>
         </form>
-           </center>
-    </body>
+    </center>
+</body>
 </html> 

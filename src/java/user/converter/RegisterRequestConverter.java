@@ -5,11 +5,18 @@
 package user.converter;
 
 import jakarta.servlet.http.HttpServletRequest;
-import user.dto.LoginRequestDTO;
+import user.dto.RegisterDTO;
 import utils.RequestMapper;
 
-public class LoginRequestConverter {
-    public static LoginRequestDTO toConverterLogin(HttpServletRequest request) {
-        return RequestMapper.mapToObject(request, LoginRequestDTO.class);
+/**
+ *
+ * @author ngoct
+ */
+public class RegisterRequestConverter {
+
+    public static RegisterDTO toConvertBasicInformation(HttpServletRequest request) {
+        RegisterDTO temp = RequestMapper.mapToObject(request, RegisterDTO.class);
+        return temp;
     }
+
 }

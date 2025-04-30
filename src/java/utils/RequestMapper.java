@@ -4,6 +4,7 @@
  */
 package utils;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.servlet.http.HttpServletRequest;
 import java.lang.reflect.Field;
 import java.text.SimpleDateFormat;
@@ -13,12 +14,17 @@ import exceptions.MappingException;
 public class RequestMapper {
 
     public static <T> T mapToObject(HttpServletRequest request, Class<T> clazz) {
-         try {
+        try {
             T instance = clazz.getDeclaredConstructor().newInstance();
             Field[] fields = clazz.getDeclaredFields();
             for (Field field : fields) {
                 field.setAccessible(true);
-                String value = request.getParameter(field.getName());
+                String paramName = field.getName();
+                JsonProperty annotation = field.getAnnotation(JsonProperty.class);
+                if (annotation != null) {
+                    paramName = annotation.value();
+                }
+                String value = request.getParameter(paramName);
                 if (value != null) {
                     Class<?> fieldType = field.getType();
                     if (fieldType == String.class) {

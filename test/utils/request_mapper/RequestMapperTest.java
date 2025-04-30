@@ -16,21 +16,21 @@ import utils.RequestMapper;
  */
 public class RequestMapperTest {
 
-	@Test
-	public void testMapToObject() {
-		HttpServletRequest mockRequest = mock(HttpServletRequest.class);
-		
-		when(mockRequest.getParameter("string_field")).thenReturn("Mr.NoBody");
-		when(mockRequest.getParameter("int_field")).thenReturn("20");
-		when(mockRequest.getParameter("float_field")).thenReturn("3.14");
-		when(mockRequest.getParameter("boolean_field")).thenReturn("true");
-		
-		Target1 target = RequestMapper.mapToObject(mockRequest, Target1.class);
-		
-		assertEquals("Mr.NoBody", target.getString_field());
-		assertEquals(20, target.getInt_field());
-		assertEquals(3.14, target.getFloat_field(), 0.01);
-		assertEquals(true, target.isBoolean_field());
-	}
-	
+    @Test
+    public void testMapToObject() {
+        HttpServletRequest mockRequest = mock(HttpServletRequest.class);
+
+        when(mockRequest.getParameter("string_field")).thenReturn("Mr.NoBody");
+        when(mockRequest.getParameter("int_field")).thenReturn("20");
+        when(mockRequest.getParameter("float_field")).thenReturn("3.14");
+        when(mockRequest.getParameter("boolean_field")).thenReturn("true");
+
+        Target1 target = RequestMapper.mapToObject(mockRequest, Target1.class);
+
+        assertEquals("Mr.NoBody", target.getString_field());
+        assertEquals(20, target.getInt_field());
+        assertEquals(3.14, target.getFloat_field(), 0.01);
+        assertEquals(true, target.isBoolean_field());
+    }
+
 }
