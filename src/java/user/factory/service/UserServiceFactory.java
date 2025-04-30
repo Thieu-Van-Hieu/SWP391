@@ -3,7 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package user.factory.service;
-import user.service.UserService;
+import user.service.itf.UserService;
 import user.service.impl.UserServiceImpl;
 /**
  *

@@ -4,7 +4,7 @@
  */
 package user.factory.repository;
 
-import user.repository.UserRepository;
+import user.repository.itf.UserRepository;
 import user.repository.impl.UserRepositoryImpl;
 
 /**
