@@ -4,8 +4,9 @@
  */
 package utils.mapper;
 
-import myexception.MappingException;
+import exceptions.MappingException;
 import org.junit.Test;
+import static org.junit.Assert.*;
 import utils.Mapper;
 
 /**
