@@ -89,15 +89,13 @@ public class MessageRepositoryseImpl implements MessageRepository {
 				int memberId = rs.getInt("memberId");
 				String content = rs.getString("content");
 				Timestamp sendAt = rs.getTimestamp("sendAt");
-				
+
 				MessageEntity message = new MessageEntity(id, courseId, memberId, content, sendAt);
 				messages.add(message);
 			}
-			
-			return messages;
 		} catch (Exception e) {
-			return null;
 		}
+		return messages;
 	}
 
 }
