@@ -6,8 +6,8 @@ package utils.request_mapper;
 
 import org.junit.Test;
 import static org.junit.Assert.*;
-import static org.mockito.Mockito.*;
-import jakarta.servlet.http.HttpServletRequest;
+import java.util.Map;
+import utils.HttpServletRequestSimulator;
 import utils.RequestMapper;
 
 /**
@@ -18,14 +18,15 @@ public class RequestMapperTest {
 
     @Test
     public void testMapToObject() {
-        HttpServletRequest mockRequest = mock(HttpServletRequest.class);
+		Map<String, String> params = Map.of(
+		"string_field", "Mr.NoBody",
+		"int_field", "20",
+		"float_field", "3.14",
+		"boolean_field", "true"
+		);
+        HttpServletRequestSimulator request = new HttpServletRequestSimulator.Builder().params(params).build();
 
-        when(mockRequest.getParameter("string_field")).thenReturn("Mr.NoBody");
-        when(mockRequest.getParameter("int_field")).thenReturn("20");
-        when(mockRequest.getParameter("float_field")).thenReturn("3.14");
-        when(mockRequest.getParameter("boolean_field")).thenReturn("true");
-
-        Target1 target = RequestMapper.mapToObject(mockRequest, Target1.class);
+        Target1 target = RequestMapper.mapToObject(request.getRequest(), Target1.class);
 
         assertEquals("Mr.NoBody", target.getString_field());
         assertEquals(20, target.getInt_field());
