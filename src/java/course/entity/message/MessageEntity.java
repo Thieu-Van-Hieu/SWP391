@@ -8,7 +8,7 @@ import java.sql.Timestamp;
 
 public class MessageEntity {
 
-    private int id;
+    private int messageId;
     private int courseId;
     private int memberId;
     private String content;
@@ -17,20 +17,20 @@ public class MessageEntity {
 	public MessageEntity() {
 	}
 
-	public MessageEntity(int id, int courseId, int memberId, String content, Timestamp sendAt) {
-		this.id = id;
+	public MessageEntity(int messageId, int courseId, int memberId, String content, Timestamp sendAt) {
+		this.messageId = messageId;
 		this.courseId = courseId;
 		this.memberId = memberId;
 		this.content = content;
 		this.sendAt = sendAt;
 	}
 
-	public int getId() {
-		return id;
+	public int getMessageId() {
+		return messageId;
 	}
 
-	public void setId(int id) {
-		this.id = id;
+	public void setMessageId(int messageId) {
+		this.messageId = messageId;
 	}
 
 	public int getCourseId() {
