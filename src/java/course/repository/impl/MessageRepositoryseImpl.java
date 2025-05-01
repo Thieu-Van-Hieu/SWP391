@@ -45,7 +45,7 @@ public class MessageRepositoryseImpl implements MessageRepository {
                 """;
 			PreparedStatement statement = db.getConnection().prepareStatement(sql);
 			statement.setString(1, messageRequestDTO.getContent());
-			statement.setInt(2, messageRequestDTO.getId());
+			statement.setInt(2, messageRequestDTO.getCourseId());
 
 			return statement.executeUpdate() > 0;
 		} catch (Exception e) {
@@ -81,7 +81,7 @@ public class MessageRepositoryseImpl implements MessageRepository {
                 where courseId = ?
                 """;
 			PreparedStatement statement = db.getConnection().prepareStatement(sql);
-			statement.setInt(1, courseRequestDTO.getId());
+			statement.setInt(1, courseRequestDTO.getCourseId());
 			ResultSet rs = statement.executeQuery();
 			while (rs.next()) {
 				int id = rs.getInt("id");
