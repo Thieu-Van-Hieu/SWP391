@@ -30,7 +30,7 @@ public class UserRepositoryImpl implements UserRepository {
             st.setString(2, loginRequestDTO.getPassword());
             ResultSet rs = st.executeQuery();
             if (rs.next()) {
-                result.setUserName(rs.getString("username"));
+                result.setUsername(rs.getString("username"));
                 result.setUserId(rs.getInt("id"));
                 result.setRoleId(rs.getInt("role"));
             }
