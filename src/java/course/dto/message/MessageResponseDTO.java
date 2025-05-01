@@ -16,7 +16,7 @@ public class MessageResponseDTO {
 	public MessageResponseDTO() {
 	}
 
-	public MessageResponseDTO(Builder builder) {
+	private MessageResponseDTO(Builder builder) {
 		this.id = builder.id;
 		this.sender = builder.sender;
 		this.content = builder.content;
@@ -39,26 +39,30 @@ public class MessageResponseDTO {
 		return sendAt;
 	}
 
-	class Builder {
+	public static class Builder {
 		private int id;
 		private String sender;
 		private String content;
 		private Timestamp sendAt;
 
-		public void id(int id) {
+		public Builder id(int id) {
 			this.id = id;
+			return this;
 		}
 
-		public void sender(String sender) {
+		public Builder sender(String sender) {
 			this.sender = sender;
+			return this;
 		}
 
-		public void content(String content) {
+		public Builder content(String content) {
 			this.content = content;
+			return this;
 		}
 
-		public void sendAt(Timestamp sendAt) {
+		public Builder sendAt(Timestamp sendAt) {
 			this.sendAt = sendAt;
+			return this;
 		}
 
 		public MessageResponseDTO build() {
