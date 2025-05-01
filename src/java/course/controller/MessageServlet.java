@@ -5,6 +5,7 @@
 
 package course.controller;
 
+import course.dto.message.MessageResponseDTO;
 import course.facade.MessageFacade;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -12,6 +13,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
@@ -59,6 +61,17 @@ public class MessageServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
 		String action = request.getParameter("action");
+		
+		if (action == null) {
+			action = "";
+		}
+		
+		Map<String, Function<HttpServletRequest, ArrayList<MessageResponseDTO>>> actionMap = Map.of(
+			"getAll", MessageFacade::getMessagesByCourseId
+		);
+		
+		actionMap.get(action).apply(request);
+		request.getRequestDispatcher("").forward(request, response);
     } 
 
     /** 
