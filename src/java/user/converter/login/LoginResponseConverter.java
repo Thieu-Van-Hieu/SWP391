@@ -17,10 +17,9 @@ import utils.Mapper;
 public class LoginResponseConverter {
 
     public static LoginResponseDTO toLoginResponDTOConverter(UserEntity userEntity) {
-        UserInformationEntity userInformationEntity = UserRepositoryFactory.getUserInformationRepository().getInformationById(userEntity.getId());
+        UserInformationEntity userInformationEntity = UserRepositoryFactory.getUserInformationRepository().getInformationById(userEntity.getUserId());
         LoginResponseDTO result = Mapper.mapToObject(userInformationEntity, LoginResponseDTO.class);
-        result.setUsername(userEntity.getUserName());
-        result.setRoleId(userEntity.getRole());
+        result = Mapper.mapObjectIgnoreNull(result, userEntity);
         return result;
 
     }

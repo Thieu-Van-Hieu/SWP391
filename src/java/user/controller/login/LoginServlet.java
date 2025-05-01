@@ -74,8 +74,8 @@ public class LoginServlet extends HttpServlet {
             throws ServletException, IOException {
         LoginResponseDTO user = UserFacade.isLogin(request);
         HttpSession session = request.getSession();
-        PrintWriter out = response.getWriter();
-        out.print(user.getUsername());
+        session.setAttribute("user", user);
+        response.sendRedirect("url");
     }
 
     /**
