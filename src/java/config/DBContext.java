@@ -8,7 +8,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 
 public class DBContext {
-
+	
     private static DBContext _instance = null;
     private Connection connection = null;
 
@@ -39,4 +39,15 @@ public class DBContext {
         this("jdbc:sqlserver://localhost:1433;databaseName=FPTUsersDB;TrustServerCertificate=true;",
                 "sa", "123");
     }
+	
+	public void setDatabaseTest() {
+		 try {
+            if (connection == null || connection.isClosed()) {
+                Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+                connection = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;databaseName=FPTUsersDBTest;TrustServerCertificate=true;", "sa", "123");
+            }
+        } catch (Exception e) {
+            connection = null;
+        }
+	} 
 }
