@@ -14,8 +14,9 @@ import java.util.ArrayList;
  * @author quann
  */
 public interface MessageRepository {
-	public boolean createMessage(MessageRequestDTO messageDTO);
-	public boolean editMessage(MessageRequestDTO messageDTO);
-	public boolean deleteMessage(MessageRequestDTO messageDTO);
+	public boolean createMessage(MessageRequestDTO messageRequestDTO);
+	public boolean editMessage(MessageRequestDTO messageRequestDTO);
+	public boolean deleteMessage(MessageRequestDTO messageRequestDTO);
 	public ArrayList<MessageEntity> getMessagesByCourseId(CourseRequestDTO courseResponseDTO);
+	public MessageEntity getMessageByMessageId(MessageRequestDTO messageRequestDTO);
 }
