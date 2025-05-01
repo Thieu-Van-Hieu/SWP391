@@ -10,17 +10,17 @@ package user.entity;
  */
 public class UserEntity {
 
-    private int id;
+    private int userId;
     private String username;
     private String password;
-    private int role;
+    private int roleId;
 
-    public int getId() {
-        return id;
+    public int getUserId() {
+        return userId;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
     public String getUserName() {
@@ -39,12 +39,12 @@ public class UserEntity {
         this.password = password;
     }
 
-    public int getRole() {
-        return role;
+    public int getRoleId() {
+        return roleId;
     }
 
-    public void setRole(int role) {
-        this.role = role;
+    public void setRoleId(int roleId) {
+        this.roleId = roleId;
     }
 
 }

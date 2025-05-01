@@ -49,4 +49,29 @@ public class Mapper {
             throw new MappingException(String.format("Cannot create instance for class %s", clazz.getName()));
         }
     }
+
+    public static <T> T mapObjectIgnoreNull(Object target, Object sourceData) throws MappingException {
+        Field[] targetFields = target.getClass().getDeclaredFields();
+        Field[] sourceDataFields = sourceData.getClass().getDeclaredFields();
+
+        for (Field field : sourceDataFields) {
+            field.setAccessible(true);
+            try {
+                Object value = field.get(sourceData);
+                if (value != null) {
+                    try {
+                        Field targetField = target.getClass().getDeclaredField(field.getName());
+                        targetField.setAccessible(true);
+                        targetField.set(target, value);
+                    } catch (NoSuchFieldException e) {
+                    }
+
+                }
+            } catch (Exception e) {
+                throw new MappingException("Failed ti access field: " + field.getName(), e);
+            }
+
+        }
+        return (T) target;
+    }
 }
