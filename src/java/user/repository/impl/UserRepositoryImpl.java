@@ -31,8 +31,8 @@ public class UserRepositoryImpl implements UserRepository {
             ResultSet rs = st.executeQuery();
             if (rs.next()) {
                 result.setUserName(rs.getString("username"));
-                result.setId(rs.getInt("id"));
-                result.setRole(rs.getInt("role"));
+                result.setUserId(rs.getInt("id"));
+                result.setRoleId(rs.getInt("role"));
             }
         } catch (Exception e) {
             return new UserEntity();
