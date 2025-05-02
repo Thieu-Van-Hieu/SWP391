@@ -4,47 +4,27 @@
  */
 package user.entity;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 /**
  *
  * @author ngoct
  */
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class UserEntity {
 
-    private int id;
+    private int userId;
     private String username;
     private String password;
-    private int role;
+    private int roleId;
 
-    public int getId() {
-        return id;
+    public int getUserId() {
+        return userId;
     }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getUserName() {
-        return username;
-    }
-
-    public void setUserName(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public int getRole() {
-        return role;
-    }
-
-    public void setRole(int role) {
-        this.role = role;
-    }
-
 }

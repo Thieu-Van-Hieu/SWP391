@@ -7,7 +7,7 @@ package utils.request_mapper;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import java.util.Map;
-import utils.HttpServletRequestSimulator;
+import testkit.HttpServletRequestSimulator;
 import utils.RequestMapper;
 
 /**

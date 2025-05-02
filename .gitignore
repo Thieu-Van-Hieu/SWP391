@@ -1,3 +1,44 @@
+# --- Java compiled files ---
+*.class
+*.jar
+*.war
+*.ear
+*.log
+
+# --- Ant build directories ---
 /build/
 /dist/
-/nbproject/private/
+/nbbuild/
+/nbdist/
+/genfiles/
+
+# --- NetBeans private project files ---
+nbproject/private/
+nbproject/Makefile-*.mk
+nbproject/Package-*.bash
+
+# --- IntelliJ / Eclipse (nếu lỡ mở bằng IDE khác) ---
+*.iml
+.idea/
+.project
+.classpath
+.settings/
+
+# --- Tomcat runtime folders ---
+/work/
+/logs/
+/temp/
+/webapps/ROOT/
+
+# --- OS junk ---
+.DS_Store
+Thumbs.db
+
+# --- JVM crash logs ---
+hs_err_pid*
+replay_pid*
+
+# --- Optional user scripts or config ---
+*.bat
+*.sh
+

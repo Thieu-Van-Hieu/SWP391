@@ -9,6 +9,7 @@ import course.dto.course.CourseRequestDTO;
 import course.dto.message.MessageRequestDTO;
 import course.entity.message.MessageEntity;
 import course.repository.itf.MessageRepository;
+import exception.course.MessageNotFoundException;
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -30,6 +31,7 @@ public class MessageRepositoryseImpl implements MessageRepository {
 
 			return statement.executeUpdate() > 0;
 		} catch (Exception e) {
+			e.printStackTrace();
 			return false;
 		}
 	}
@@ -45,7 +47,7 @@ public class MessageRepositoryseImpl implements MessageRepository {
                 """;
 			PreparedStatement statement = db.getConnection().prepareStatement(sql);
 			statement.setString(1, messageRequestDTO.getContent());
-			statement.setInt(2, messageRequestDTO.getId());
+			statement.setInt(2, messageRequestDTO.getMessageId());
 
 			return statement.executeUpdate() > 0;
 		} catch (Exception e) {
@@ -62,7 +64,7 @@ public class MessageRepositoryseImpl implements MessageRepository {
                 where id = ? 
                 """;
 			PreparedStatement statement = db.getConnection().prepareStatement(sql);
-			statement.setInt(1, messageRequestDTO.getCourseId());
+			statement.setInt(1, messageRequestDTO.getMessageId());
 
 			return statement.executeUpdate() > 0;
 		} catch (Exception e) {
@@ -81,7 +83,7 @@ public class MessageRepositoryseImpl implements MessageRepository {
                 where courseId = ?
                 """;
 			PreparedStatement statement = db.getConnection().prepareStatement(sql);
-			statement.setInt(1, courseRequestDTO.getId());
+			statement.setInt(1, courseRequestDTO.getCourseId());
 			ResultSet rs = statement.executeQuery();
 			while (rs.next()) {
 				int id = rs.getInt("id");
@@ -89,15 +91,42 @@ public class MessageRepositoryseImpl implements MessageRepository {
 				int memberId = rs.getInt("memberId");
 				String content = rs.getString("content");
 				Timestamp sendAt = rs.getTimestamp("sendAt");
-				
+
 				MessageEntity message = new MessageEntity(id, courseId, memberId, content, sendAt);
 				messages.add(message);
 			}
-			
-			return messages;
 		} catch (Exception e) {
-			return null;
 		}
+		return messages;
+	}
+
+	@Override
+	public MessageEntity getMessageByMessageId(MessageRequestDTO messageRequestDTO) throws MessageNotFoundException {
+		DBContext db = DBContext.getInstance();
+		try {
+			String sql = """
+				select *
+                from messages
+                where id = ?
+                """;
+			PreparedStatement statement = db.getConnection().prepareStatement(sql);
+			statement.setInt(1, messageRequestDTO.getMessageId());
+			ResultSet rs = statement.executeQuery();
+			if (rs.next()) {
+				int messageId = rs.getInt("id");
+				int courseId = rs.getInt("courseId");
+				int memberId = rs.getInt("memberId");
+				String content = rs.getString("content");
+				Timestamp sendAt = rs.getTimestamp("sendAt");
+				
+				MessageEntity messageEntity = new MessageEntity(messageId, courseId, memberId, content, sendAt);
+				return messageEntity;
+			}
+		} catch (Exception e) {
+			
+		}
+		
+		throw new MessageNotFoundException();
 	}
 
 }

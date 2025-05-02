@@ -21,8 +21,8 @@ import user.factory.service.UserServiceFactory;
 public class UserFacade {
 
     public static LoginResponseDTO isLogin(HttpServletRequest request) {
-        LoginRequestDTO loginRequest = LoginRequestConverter.toConverterLogin(request);
-        return UserServiceFactory.getUserService().isLogin(loginRequest);
+        LoginRequestDTO loginRequestDTO = LoginRequestConverter.toConverterLogin(request);
+        return UserServiceFactory.getUserService().isLogin(loginRequestDTO);
     }
 
     public static RegisterDTO isRegister(HttpServletRequest request) {

@@ -6,20 +6,22 @@ package course.dto.course;
  */
 
 public class CourseRequestDTO {
-	private int id;
+	private int courseId;
 
 	public CourseRequestDTO() {
 	}
 
-	public CourseRequestDTO(int id) {
-		this.id = id;
+	public CourseRequestDTO(int courseId) {
+		this.courseId = courseId;
 	}
 
-	public int getId() {
-		return id;
+	public int getCourseId() {
+		return courseId;
 	}
 
-	public void setId(int id) {
-		this.id = id;
+	public void setCourseId(int courseId) {
+		this.courseId = courseId;
 	}
+	
+	
 }
