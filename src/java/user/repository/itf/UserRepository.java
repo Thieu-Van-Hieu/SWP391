@@ -6,7 +6,6 @@ package user.repository.itf;
 
 import exceptions.DataException;
 import user.dto.changeInfor.ChangePasswordRequestDTO;
-import user.dto.changeInfor.ChangeInforResponseDTO;
 import user.dto.changeInfor.UserEditLogRequestDTO;
 import user.dto.login.LoginRequestDTO;
 import user.entity.UserEntity;
@@ -19,7 +18,7 @@ public interface UserRepository {
 
     UserEntity isLogin(LoginRequestDTO loginRequestDTO);
     
-    ChangeInforResponseDTO changePassword(ChangePasswordRequestDTO changePasswordRequestDTO);
+    boolean changePassword(ChangePasswordRequestDTO changePasswordRequestDTO);
     
     String getPasswordById(int id) throws DataException;
     

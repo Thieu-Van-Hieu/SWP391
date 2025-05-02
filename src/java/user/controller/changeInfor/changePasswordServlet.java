@@ -11,6 +11,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import user.facade.UserFacade;
 
 /**
  *
@@ -66,7 +67,12 @@ public class changePasswordServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        processRequest(request, response);
+        boolean result = UserFacade.changePassword(request);
+        if(result){
+            System.out.println("Success");
+        } else {
+            System.out.println("False");
+        }
     }
 
     /** 

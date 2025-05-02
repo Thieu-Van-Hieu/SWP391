@@ -8,9 +8,7 @@ import config.DBContext;
 import exceptions.DataException;
 import java.sql.*;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import user.dto.changeInfor.ChangePasswordRequestDTO;
-import user.dto.changeInfor.ChangeInforResponseDTO;
 import user.dto.changeInfor.UserEditLogRequestDTO;
 import user.dto.login.LoginRequestDTO;
 import user.entity.UserEntity;
@@ -47,10 +45,9 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public ChangeInforResponseDTO changePassword(ChangePasswordRequestDTO changePasswordRequestDTO) {
+    public boolean changePassword(ChangePasswordRequestDTO changePasswordRequestDTO) {
         DBContext db = DBContext.getInstance();
         LocalDateTime changeAt = LocalDateTime.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         String oldPassword = getPasswordById(changePasswordRequestDTO.getUserId());
         try {
             String sql = """
@@ -64,21 +61,12 @@ public class UserRepositoryImpl implements UserRepository {
             int rs = st.executeUpdate();
             if (rs > 0) {
                 savingToHistory(new UserEditLogRequestDTO(changePasswordRequestDTO.getUserId(), "password", oldPassword, changePasswordRequestDTO.getPassword(), changeAt));
-                return new ChangeInforResponseDTO.Builder()
-                        .setStatus("Success")
-                        .setUpdateAt(changeAt.format(formatter))
-                        .build();
+                return true;
             } else {
-                return new ChangeInforResponseDTO.Builder()
-                        .setStatus("False")
-                        .setUpdateAt(changeAt.format(formatter))
-                        .build();
+                return false;
             }
         } catch (Exception e) {
-            return new ChangeInforResponseDTO.Builder()
-                    .setStatus("False")
-                    .setUpdateAt(changeAt.format(formatter))
-                    .build();
+            return false;
         }
     }
 
