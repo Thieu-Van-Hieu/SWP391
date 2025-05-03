@@ -17,8 +17,7 @@ import lombok.Setter;
 public class MessageResponseDTO {
 
 	private int messageId;
-	private String firstName;
-	private String lastName;
+	private String senderName;
 	private String content;
 	private Timestamp sendAt;
 }
