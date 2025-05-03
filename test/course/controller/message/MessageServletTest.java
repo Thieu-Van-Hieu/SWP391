@@ -1,4 +1,4 @@
-package course.controller.message_servlet;
+package course.controller.message;
 
 import config.DBContext;
 import course.controller.MessageServlet;

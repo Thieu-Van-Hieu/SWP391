@@ -1,4 +1,4 @@
-package course.repository.message_repository;
+package course.repository.message;
 
 import course.factory.repository.MessageRepositoryFactory;
 import course.repository.itf.MessageRepository;

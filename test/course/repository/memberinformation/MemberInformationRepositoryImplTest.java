@@ -1,4 +1,4 @@
-package course.repository.member_information_repository;
+package course.repository.memberinformation;
 
 import config.DBContext;
 import course.dto.member_information.MemberInformationRequestDTO;

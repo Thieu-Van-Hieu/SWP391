@@ -1,4 +1,4 @@
-package utils.request_mapper;
+package utils.requestmapper;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

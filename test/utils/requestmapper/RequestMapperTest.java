@@ -1,4 +1,4 @@
-package utils.request_mapper;
+package utils.requestmapper;
 
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
