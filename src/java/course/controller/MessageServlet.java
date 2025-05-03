@@ -3,12 +3,12 @@ package course.controller;
 import course.dto.message.MessageResponseDTO;
 import course.facade.MessageFacade;
 import exception.common.UnknownActionException;
-import java.io.IOException;
-import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.function.Function;
@@ -72,7 +72,7 @@ public class MessageServlet extends HttpServlet {
 		if (actionMap.containsKey(action)) {
 			if (actionMap.get(action).test(request)) {
 				request.setAttribute("success", "");
-			} {
+			} else {
 			request.setAttribute("error", "");
 		}
 		} else {
