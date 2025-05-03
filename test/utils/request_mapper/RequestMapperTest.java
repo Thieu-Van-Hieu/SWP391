@@ -20,10 +20,10 @@ public class RequestMapperTest {
 
         Target1 target = RequestMapper.mapToObject(request.getRequest(), Target1.class);
 
-        assertEquals("Mr.NoBody", target.getString_field());
-        assertEquals(20, target.getInt_field());
-        assertEquals(3.14, target.getFloat_field(), 0.01);
-        assertEquals(true, target.isBoolean_field());
+        assertEquals("Mr.NoBody", target.getStringField());
+        assertEquals(20, target.getIntField());
+        assertEquals(3.14, target.getFloatField(), 0.01);
+        assertEquals(true, target.isBooleanField());
     }
 
 }

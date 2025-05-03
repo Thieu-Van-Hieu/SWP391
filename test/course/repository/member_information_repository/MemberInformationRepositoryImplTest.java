@@ -39,9 +39,9 @@ public class MemberInformationRepositoryImplTest {
 		MemberInformationRepository memberInformationRepository = MemberInformationRepositoryFactory.getMemberInformationRepository();
 		MemberInformationEntity memberInformationEntity = memberInformationRepository.getMemberInformationByMemberInformationId(memberInformationRequestDTO);
 		
-		assertEquals(1, memberInformationEntity.getMemberInfomationId());
-		assertEquals(1, memberInformationEntity.getMemberId());
-		assertEquals("Alice Nguyen", memberInformationEntity.getName());
+		MemberInformationEntity memberInformationEntityExpected = new MemberInformationEntity(1, 1, "Alice Nguyen");
+		
+		assertEquals(memberInformationEntityExpected, memberInformationEntityExpected);
 	
 		memberInformationRequestDTO.setMemberId(4);
 		assertThrows(MemberInformationNotFoundException.class, () -> {

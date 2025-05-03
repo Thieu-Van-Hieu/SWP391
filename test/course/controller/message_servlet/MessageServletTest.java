@@ -14,6 +14,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.List;
 import org.junit.Test;
 import org.junit.Before;
 import org.junit.After;
@@ -78,16 +79,15 @@ public class MessageServletTest {
 		new MessageServlet().doGet(httpServletRequestSimulator.getRequest(), httpServletResponseSimulator.getResponse());
 
 		ArrayList<MessageResponseDTO> messageResponseDTOs = (ArrayList<MessageResponseDTO>) httpServletRequestSimulator.getRequest().getAttribute("messageResponseDTOs");
-
-		assertEquals(2, messageResponseDTOs.size());
-		assertEquals(1, messageResponseDTOs.get(0).getMessageId());
-		assertEquals("Alice Nguyen", messageResponseDTOs.get(0).getSenderName());
-		assertEquals("Welcome to the course!", messageResponseDTOs.get(0).getContent());
-		assertEquals(Timestamp.valueOf("2025-04-01 08:00:00.000"), messageResponseDTOs.get(0).getSendAt());
-		assertEquals(2, messageResponseDTOs.get(1).getMessageId());
-		assertEquals("Bob Tran", messageResponseDTOs.get(1).getSenderName());
-		assertEquals("Thank you!", messageResponseDTOs.get(1).getContent());
-		assertEquals(Timestamp.valueOf("2025-04-01 08:05:00.000"), messageResponseDTOs.get(1).getSendAt());
+		
+		MessageRepository messageRepository = MessageRepositoryFactory.getMessageRepository();
+	
+		ArrayList<MessageResponseDTO> messageResponseDTOsExpected = new ArrayList<>(List.of(
+				new MessageResponseDTO(1, "Alice Nguyen", "Welcome to the course!", Timestamp.valueOf("2025-04-01 08:00:00.000")),
+				new MessageResponseDTO(2, "Bob Tran", "Thank you!", Timestamp.valueOf("2025-04-01 08:05:00.000"))
+		));
+		
+		assertEquals(messageResponseDTOsExpected, messageResponseDTOs);
 	}
 
 	@Test

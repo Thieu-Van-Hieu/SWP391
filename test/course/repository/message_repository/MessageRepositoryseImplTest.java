@@ -18,6 +18,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class MessageRepositoryseImplTest {
 
@@ -45,11 +47,9 @@ public class MessageRepositoryseImplTest {
 		MessageRepository messageRepository = MessageRepositoryFactory.getMessageRepository();
 		MessageEntity messageEntity = messageRepository.getMessageByMessageId(messageRequestDTO);
 		
-		assertEquals(1, messageEntity.getMessageId());
-		assertEquals(1, messageEntity.getCourseId());
-		assertEquals(1, messageEntity.getMemberId());
-		assertEquals("Welcome to the course!", messageEntity.getContent());
-		assertEquals(Timestamp.valueOf("2025-04-01 08:00:00.000"), messageEntity.getSendAt());
+		MessageEntity messageEntityExpected = new MessageEntity(1, 1, 1, "Welcome to the course!", Timestamp.valueOf("2025-04-01 08:00:00.000"));
+		
+		assertEquals(messageEntityExpected, messageEntity);
 	}
 
 	@Test
@@ -114,17 +114,12 @@ public class MessageRepositoryseImplTest {
 		MessageRepository messageRepository = MessageRepositoryFactory.getMessageRepository();
 		ArrayList<MessageEntity> messageEntities = messageRepository.getMessagesByCourseId(courseRequestDTO);
 	
-		assertEquals(2, messageEntities.size());
-		assertEquals(1, messageEntities.get(0).getMessageId());
-		assertEquals(1, messageEntities.get(0).getCourseId());
-		assertEquals(1, messageEntities.get(0).getMemberId());
-		assertEquals("Welcome to the course!", messageEntities.get(0).getContent());
-		assertEquals(Timestamp.valueOf("2025-04-01 08:00:00.000"), messageEntities.get(0).getSendAt());
-		assertEquals(2, messageEntities.get(1).getMessageId());
-		assertEquals(1, messageEntities.get(1).getCourseId());
-		assertEquals(3, messageEntities.get(1).getMemberId());
-		assertEquals("Thank you!", messageEntities.get(1).getContent());
-		assertEquals(Timestamp.valueOf("2025-04-01 08:05:00.000"), messageEntities.get(1).getSendAt());
+		ArrayList<MessageEntity> messageEntitesExpected = new ArrayList<>(List.of(
+				new MessageEntity(1, 1, 1, "Welcome to the course!", Timestamp.valueOf("2025-04-01 08:00:00.000")),
+				new MessageEntity(2, 1, 3, "Thank you!", Timestamp.valueOf("2025-04-01 08:05:00.000"))
+		));
+		
+		assertEquals(messageEntitesExpected, messageEntities);
 	}
 
 }

@@ -1,17 +1,17 @@
 package utils.mapper;
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Source {
 
-    private int x;
-    private String y;
-    private double z;
-
-    public Source() {
-    }
-
-    public Source(int x, String y, double z) {
-        this.x = x;
-        this.y = y;
-        this.z = z;
-    }
+	private int x;
+	private String y;
+	private double z;
 }

@@ -1,23 +1,16 @@
 package utils.mapper;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Target2 {
 
-    private double x;
-    private String y;
-
-    public Target2() {
-    }
-
-    public Target2(double x, String y) {
-        this.x = x;
-        this.y = y;
-    }
-
-    public double getX() {
-        return x;
-    }
-
-    public String getY() {
-        return y;
-    }
+	private double x;
+	private String y;
 }
