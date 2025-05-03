@@ -11,7 +11,7 @@ import static org.junit.Assert.*;
 import config.DBContext;
 import course.dto.course.CourseRequestDTO;
 import course.dto.message.MessageRequestDTO;
-import course.entity.message.MessageEntity;
+import course.entity.MessageEntity;
 import exception.course.MessageNotFoundException;
 import java.sql.*;
 import java.util.ArrayList;
@@ -98,7 +98,6 @@ public class MessageRepositoryseImplTest {
 	public void testDeleteMessage() {
 		MessageRequestDTO messageRequestDTO = new MessageRequestDTO();
 		messageRequestDTO.setMessageId(1);
-		messageRequestDTO.setContent("Xin chao");
 		
 		MessageRepository messageRepository = MessageRepositoryFactory.getMessageRepository();
 		assertTrue(messageRepository.deleteMessage(messageRequestDTO));

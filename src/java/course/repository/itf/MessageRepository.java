@@ -6,7 +6,7 @@ package course.repository.itf;
 
 import course.dto.course.CourseRequestDTO;
 import course.dto.message.MessageRequestDTO;
-import course.entity.message.MessageEntity;
+import course.entity.MessageEntity;
 import java.util.ArrayList;
 
 /**

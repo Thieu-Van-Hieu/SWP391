@@ -9,7 +9,7 @@ import course.converter.message.MessageResponseConverter;
 import course.dto.course.CourseRequestDTO;
 import course.dto.message.MessageRequestDTO;
 import course.dto.message.MessageResponseDTO;
-import course.entity.message.MessageEntity;
+import course.entity.MessageEntity;
 import course.factory.repository.MessageRepositoryFactory;
 import course.service.itf.MessageService;
 import java.util.ArrayList;
