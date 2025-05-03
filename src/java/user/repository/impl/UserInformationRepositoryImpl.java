@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package user.repository.impl;
 
 import config.DBContext;
@@ -10,10 +6,6 @@ import java.sql.ResultSet;
 import user.entity.UserInformationEntity;
 import user.repository.itf.UserInformationRepository;
 
-/**
- *
- * @author ngoct
- */
 public class UserInformationRepositoryImpl implements UserInformationRepository {
 
     @Override
