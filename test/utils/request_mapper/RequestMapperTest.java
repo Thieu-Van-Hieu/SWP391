@@ -5,7 +5,7 @@
 package utils.request_mapper;
 
 import org.junit.Test;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 import java.util.Map;
 import testkit.HttpServletRequestSimulator;
 import utils.RequestMapper;
@@ -24,7 +24,7 @@ public class RequestMapperTest {
 		"float_field", "3.14",
 		"boolean_field", "true"
 		);
-        HttpServletRequestSimulator request = new HttpServletRequestSimulator.Builder().params(params).build();
+        HttpServletRequestSimulator request = HttpServletRequestSimulator.builder().params(params).build();
 
         Target1 target = RequestMapper.mapToObject(request.getRequest(), Target1.class);
 

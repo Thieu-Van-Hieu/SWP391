@@ -4,16 +4,24 @@
  */
 package testkit;
 
+import jakarta.servlet.RequestDispatcher;
+import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.Map;
-import static org.mockito.Mockito.*;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.doAnswer;
+import org.mockito.stubbing.Answer;
 
 public class HttpServletRequestSimulator {
 
 	private HttpServletRequest request;
 
-	private HttpServletRequestSimulator(Builder builder) {
-		this.request = builder.request;
+	public static Builder builder() {
+		return new Builder();
 	}
 
 	public HttpServletRequest getRequest() {
@@ -38,7 +46,7 @@ public class HttpServletRequestSimulator {
 			return this;
 		}
 
-		public Builder addAttribute(String key, Object value) {
+		public Builder setAttribute(String key, Object value) {
 			when(request.getAttribute(key)).thenReturn(value);
 			return this;
 		}
@@ -47,13 +55,34 @@ public class HttpServletRequestSimulator {
 			for (Map.Entry<String, Object> entry : attributes.entrySet()) {
 				String key = entry.getKey();
 				Object value = entry.getValue();
-				addAttribute(key, value);
+				setAttribute(key, value);
 			}
 			return this;
 		}
 
 		public HttpServletRequestSimulator build() {
-			return new HttpServletRequestSimulator(this);
+			return new HttpServletRequestSimulator(request);
 		}
 	}
+
+	private void disableGetRequestDispatcher() throws Exception {
+		RequestDispatcher dispatcher = mock(RequestDispatcher.class);
+		when(request.getRequestDispatcher(anyString())).thenReturn(dispatcher);
+		doNothing().when(dispatcher).forward(any(), any());
+	}
+	
+	private void enableSetAttribute() {
+		doAnswer(invocation -> when(request.getAttribute((String) invocation.getArgument(0))).thenReturn(invocation.getArgument(1))).when(request).setAttribute(anyString(), any());
+	}
+
+	private HttpServletRequestSimulator(HttpServletRequest request) {
+		this.request = request;
+		
+		try {
+			disableGetRequestDispatcher();
+			enableSetAttribute();
+		} catch (Exception e) {
+		}
+	}
+
 }
