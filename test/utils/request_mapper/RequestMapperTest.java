@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/UnitTests/JUnit4TestClass.java to edit this template
- */
 package utils.request_mapper;
 
 import org.junit.Test;
@@ -10,10 +6,6 @@ import java.util.Map;
 import testkit.HttpServletRequestSimulator;
 import utils.RequestMapper;
 
-/**
- *
- * @author quann
- */
 public class RequestMapperTest {
 
     @Test

@@ -1,12 +1,7 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/UnitTests/JUnit4TestClass.java to edit this template
- */
 package course.controller.message_servlet;
 
 import config.DBContext;
 import course.controller.MessageServlet;
-import course.dto.course.CourseRequestDTO;
 import course.dto.message.MessageRequestDTO;
 import course.dto.message.MessageResponseDTO;
 import course.entity.MessageEntity;
@@ -29,10 +24,6 @@ import static org.junit.Assert.assertTrue;
 import testkit.HttpServletRequestSimulator;
 import testkit.HttpServletResponseSimulator;
 
-/**
- *
- * @author quann
- */
 public class MessageServletTest {
 
 	DBContext db = DBContext.getInstance();

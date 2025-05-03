@@ -1,25 +1,24 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/UnitTests/JUnit4TestClass.java to edit this template
- */
 package course.repository.message_repository;
 
 import course.factory.repository.MessageRepositoryFactory;
 import course.repository.itf.MessageRepository;
-import org.junit.*;
-import static org.junit.Assert.*;
+import org.junit.Test;
+import org.junit.Before;
+import org.junit.After;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThrows;
+import static org.junit.Assert.assertTrue;
 import config.DBContext;
 import course.dto.course.CourseRequestDTO;
 import course.dto.message.MessageRequestDTO;
 import course.entity.MessageEntity;
 import exception.course.MessageNotFoundException;
-import java.sql.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 
-/**
- *
- * @author quann
- */
 public class MessageRepositoryseImplTest {
 
 	DBContext db = DBContext.getInstance();
