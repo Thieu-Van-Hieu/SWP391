@@ -9,19 +9,16 @@ import course.factory.repository.MessageRepositoryFactory;
 import course.repository.itf.MessageRepository;
 import exception.common.UnknownActionException;
 import exception.course.MessageNotFoundException;
-import java.sql.SQLException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
-import org.junit.Test;
-import org.junit.Before;
 import org.junit.After;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThrows;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
 import testkit.HttpServletRequestSimulator;
 import testkit.HttpServletResponseSimulator;
 
@@ -49,11 +46,11 @@ public class MessageServletTest {
 		HttpServletResponseSimulator httpServletResponseSimulator = HttpServletResponseSimulator.builder().build();
 
 		MessageServlet messageServlet = new MessageServlet();
-		assertThrows(UnknownActionException.class, () -> {
+		Assert.assertThrows(UnknownActionException.class, () -> {
 			messageServlet.doGet(httpServletRequestSimulator.getRequest(), httpServletResponseSimulator.getResponse());
 		});
 
-		assertThrows(UnknownActionException.class, () -> {
+		Assert.assertThrows(UnknownActionException.class, () -> {
 			messageServlet.doPost(httpServletRequestSimulator.getRequest(), httpServletResponseSimulator.getResponse());
 		});
 
@@ -68,7 +65,7 @@ public class MessageServletTest {
 
 		ArrayList<MessageResponseDTO> messageResponseDTOs = (ArrayList<MessageResponseDTO>) httpServletRequestSimulator.getRequest().getAttribute("messageResponseDTOs");
 
-		assertEquals(0, messageResponseDTOs.size());
+		Assert.assertEquals(0, messageResponseDTOs.size());
 	}
 
 	@Test
@@ -87,7 +84,7 @@ public class MessageServletTest {
 				new MessageResponseDTO(2, "Bob Tran", "Thank you!", Timestamp.valueOf("2025-04-01 08:05:00.000"))
 		));
 		
-		assertEquals(messageResponseDTOsExpected, messageResponseDTOs);
+		Assert.assertEquals(messageResponseDTOsExpected, messageResponseDTOs);
 	}
 
 	@Test
@@ -96,17 +93,17 @@ public class MessageServletTest {
 		HttpServletResponseSimulator httpServletResponseSimulator = HttpServletResponseSimulator.builder().build();
 
 		new MessageServlet().doPost(httpServletRequestSimulator.getRequest(), httpServletResponseSimulator.getResponse());
-		assertNotNull(httpServletRequestSimulator.getRequest().getAttribute("error"));
+		Assert.assertNotNull(httpServletRequestSimulator.getRequest().getAttribute("error"));
 
 		httpServletRequestSimulator = HttpServletRequestSimulator.builder().addParam("action", "editMessage").build();
 
 		new MessageServlet().doPost(httpServletRequestSimulator.getRequest(), httpServletResponseSimulator.getResponse());
-		assertNotNull(httpServletRequestSimulator.getRequest().getAttribute("error"));
+		Assert.assertNotNull(httpServletRequestSimulator.getRequest().getAttribute("error"));
 
 		httpServletRequestSimulator = HttpServletRequestSimulator.builder().addParam("action", "deleteMessage").build();
 
 		new MessageServlet().doPost(httpServletRequestSimulator.getRequest(), httpServletResponseSimulator.getResponse());
-		assertNotNull(httpServletRequestSimulator.getRequest().getAttribute("error"));
+		Assert.assertNotNull(httpServletRequestSimulator.getRequest().getAttribute("error"));
 	}
 
 	@Test
@@ -116,7 +113,7 @@ public class MessageServletTest {
 
 		new MessageServlet().doPost(httpServletRequestSimulator.getRequest(), httpServletResponseSimulator.getResponse());
 
-		assertNotNull(httpServletRequestSimulator.getRequest().getAttribute("success"));
+		Assert.assertNotNull(httpServletRequestSimulator.getRequest().getAttribute("success"));
 
 		try {
 			String sql = """
@@ -126,11 +123,11 @@ public class MessageServletTest {
                 """;
 			PreparedStatement statement = db.getConnection().prepareStatement(sql);
 			ResultSet rs = statement.executeQuery();
-			assertTrue(rs.next());
+			Assert.assertTrue(rs.next());
 			if (rs.next()) {
-				assertEquals(1, rs.getInt("courseId"));
-				assertEquals(1, rs.getInt("userId"));
-				assertEquals("Xin chao", rs.getString("courseId"));
+				Assert.assertEquals(1, rs.getInt("courseId"));
+				Assert.assertEquals(1, rs.getInt("userId"));
+				Assert.assertEquals("Xin chao", rs.getString("courseId"));
 			}
 		} catch (Exception e) {
 		}
@@ -143,7 +140,7 @@ public class MessageServletTest {
 
 		new MessageServlet().doPost(httpServletRequestSimulator.getRequest(), httpServletResponseSimulator.getResponse());
 
-		assertNotNull(httpServletRequestSimulator.getRequest().getAttribute("success"));
+		Assert.assertNotNull(httpServletRequestSimulator.getRequest().getAttribute("success"));
 
 		MessageRequestDTO messageRequestDTO = new MessageRequestDTO();
 		messageRequestDTO.setMessageId(1);
@@ -151,7 +148,7 @@ public class MessageServletTest {
 		MessageRepository messageRepository = MessageRepositoryFactory.getMessageRepository();
 		MessageEntity messageEntity = messageRepository.getMessageByMessageId(messageRequestDTO);
 
-		assertEquals("Xin chao", messageEntity.getContent());
+		Assert.assertEquals("Xin chao", messageEntity.getContent());
 	}
 
 	@Test
@@ -161,13 +158,13 @@ public class MessageServletTest {
 
 		new MessageServlet().doPost(httpServletRequestSimulator.getRequest(), httpServletResponseSimulator.getResponse());
 
-		assertNotNull(httpServletRequestSimulator.getRequest().getAttribute("success"));
+		Assert.assertNotNull(httpServletRequestSimulator.getRequest().getAttribute("success"));
 
 		MessageRequestDTO messageRequestDTO = new MessageRequestDTO();
 		messageRequestDTO.setMessageId(1);
 
 		MessageRepository messageRepository = MessageRepositoryFactory.getMessageRepository();
-		assertThrows(MessageNotFoundException.class, () -> {
+		Assert.assertThrows(MessageNotFoundException.class, () -> {
 			messageRepository.getMessageByMessageId(messageRequestDTO);
 		});
 	}

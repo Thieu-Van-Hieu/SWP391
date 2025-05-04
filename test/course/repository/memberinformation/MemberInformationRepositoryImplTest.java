@@ -7,11 +7,10 @@ import course.factory.repository.MemberInformationRepositoryFactory;
 import course.repository.itf.MemberInformationRepository;
 import exception.course.MemberInformationNotFoundException;
 import java.sql.SQLException;
-import org.junit.Test;
-import org.junit.Before;
 import org.junit.After;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThrows;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
 
 public class MemberInformationRepositoryImplTest {
 
@@ -41,10 +40,10 @@ public class MemberInformationRepositoryImplTest {
 		
 		MemberInformationEntity memberInformationEntityExpected = new MemberInformationEntity(1, 1, "Alice Nguyen");
 		
-		assertEquals(memberInformationEntityExpected, memberInformationEntityExpected);
+		Assert.assertEquals(memberInformationEntityExpected, memberInformationEntityExpected);
 	
 		memberInformationRequestDTO.setMemberId(4);
-		assertThrows(MemberInformationNotFoundException.class, () -> {
+		Assert.assertThrows(MemberInformationNotFoundException.class, () -> {
 			memberInformationRepository.getMemberInformationByMemberInformationId(memberInformationRequestDTO);
 		});
 	}

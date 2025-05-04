@@ -1,9 +1,8 @@
 package utils.mapper;
 
 import exception.utils.MappingException;
+import org.junit.Assert;
 import org.junit.Test;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThrows;
 import utils.Mapper;
 
 public class MapperTest {
@@ -14,8 +13,8 @@ public class MapperTest {
 
         Target1 target = Mapper.mapToObject(source, Target1.class);
 
-        assertEquals(10, target.getX());
-        assertEquals("Hello", target.getY());
+        Assert.assertEquals(10, target.getX());
+        Assert.assertEquals("Hello", target.getY());
     }
 
     @Test
@@ -24,15 +23,15 @@ public class MapperTest {
 
         Target2 target = Mapper.mapToObject(source, Target2.class);
 
-        assertEquals(10, target.getX(), 0.0);
-        assertEquals("Hello", target.getY());
+        Assert.assertEquals(10, target.getX(), 0.0);
+        Assert.assertEquals("Hello", target.getY());
     }
 
     @Test
     public void testDoubleToString() {
         Source source = new Source(10, "Hello", 3.14);
 
-        assertThrows(MappingException.class, () -> {
+        Assert.assertThrows(MappingException.class, () -> {
             Target3 target = Mapper.mapToObject(source, Target3.class);
         });
     }

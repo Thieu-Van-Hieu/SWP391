@@ -1,25 +1,22 @@
 package course.repository.message;
 
-import course.factory.repository.MessageRepositoryFactory;
-import course.repository.itf.MessageRepository;
-import org.junit.Test;
-import org.junit.Before;
-import org.junit.After;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThrows;
-import static org.junit.Assert.assertTrue;
 import config.DBContext;
 import course.dto.course.CourseRequestDTO;
 import course.dto.message.MessageRequestDTO;
 import course.entity.MessageEntity;
+import course.factory.repository.MessageRepositoryFactory;
+import course.repository.itf.MessageRepository;
 import exception.course.MessageNotFoundException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import org.junit.After;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
 
 public class MessageRepositoryseImplTest {
 
@@ -49,7 +46,7 @@ public class MessageRepositoryseImplTest {
 		
 		MessageEntity messageEntityExpected = new MessageEntity(1, 1, 1, "Welcome to the course!", Timestamp.valueOf("2025-04-01 08:00:00.000"));
 		
-		assertEquals(messageEntityExpected, messageEntity);
+		Assert.assertEquals(messageEntityExpected, messageEntity);
 	}
 
 	@Test
@@ -60,7 +57,7 @@ public class MessageRepositoryseImplTest {
 		messageRequestDTO.setContent("Xin chao");
 		
 		MessageRepository messageRepository = MessageRepositoryFactory.getMessageRepository();
-		assertTrue(messageRepository.createMessage(messageRequestDTO));
+		Assert.assertTrue(messageRepository.createMessage(messageRequestDTO));
 
 		try {
 			String sql = """
@@ -70,11 +67,11 @@ public class MessageRepositoryseImplTest {
                 """;
 			PreparedStatement statement = db.getConnection().prepareStatement(sql);
 			ResultSet rs = statement.executeQuery();
-			assertTrue(rs.next());
+			Assert.assertTrue(rs.next());
 			if (rs.next()) {
-				assertEquals(1, rs.getInt("courseId"));
-				assertEquals(1, rs.getInt("userId"));
-				assertEquals("Xin chao", rs.getString("courseId"));
+				Assert.assertEquals(1, rs.getInt("courseId"));
+				Assert.assertEquals(1, rs.getInt("userId"));
+				Assert.assertEquals("Xin chao", rs.getString("courseId"));
 			}
 		} catch (Exception e) {
 		}
@@ -87,10 +84,10 @@ public class MessageRepositoryseImplTest {
 		messageRequestDTO.setContent("Xin chao");
 		
 		MessageRepository messageRepository = MessageRepositoryFactory.getMessageRepository();
-		assertTrue(messageRepository.editMessage(messageRequestDTO));
+		Assert.assertTrue(messageRepository.editMessage(messageRequestDTO));
 		MessageEntity messageEntity = messageRepository.getMessageByMessageId(messageRequestDTO);
 		
-		assertEquals("Xin chao", messageEntity.getContent());
+		Assert.assertEquals("Xin chao", messageEntity.getContent());
 	}
 
 	@Test
@@ -99,9 +96,9 @@ public class MessageRepositoryseImplTest {
 		messageRequestDTO.setMessageId(1);
 		
 		MessageRepository messageRepository = MessageRepositoryFactory.getMessageRepository();
-		assertTrue(messageRepository.deleteMessage(messageRequestDTO));
+		Assert.assertTrue(messageRepository.deleteMessage(messageRequestDTO));
 		
-		assertThrows(MessageNotFoundException.class, () -> {
+		Assert.assertThrows(MessageNotFoundException.class, () -> {
 			messageRepository.getMessageByMessageId(messageRequestDTO);
 		});
 	}
@@ -119,7 +116,7 @@ public class MessageRepositoryseImplTest {
 				new MessageEntity(2, 1, 3, "Thank you!", Timestamp.valueOf("2025-04-01 08:05:00.000"))
 		));
 		
-		assertEquals(messageEntitesExpected, messageEntities);
+		Assert.assertEquals(messageEntitesExpected, messageEntities);
 	}
 
 }
