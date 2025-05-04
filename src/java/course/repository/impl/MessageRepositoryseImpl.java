@@ -1,16 +1,14 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package course.repository.impl;
 
 import config.DBContext;
 import course.dto.course.CourseRequestDTO;
 import course.dto.message.MessageRequestDTO;
-import course.entity.message.MessageEntity;
+import course.entity.MessageEntity;
 import course.repository.itf.MessageRepository;
 import exception.course.MessageNotFoundException;
-import java.sql.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 
 public class MessageRepositoryseImpl implements MessageRepository {
@@ -31,7 +29,6 @@ public class MessageRepositoryseImpl implements MessageRepository {
 
 			return statement.executeUpdate() > 0;
 		} catch (Exception e) {
-			e.printStackTrace();
 			return false;
 		}
 	}

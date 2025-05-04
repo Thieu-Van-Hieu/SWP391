@@ -1,15 +1,10 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-
 package course.service.impl;
 
 import course.converter.message.MessageResponseConverter;
 import course.dto.course.CourseRequestDTO;
 import course.dto.message.MessageRequestDTO;
 import course.dto.message.MessageResponseDTO;
-import course.entity.message.MessageEntity;
+import course.entity.MessageEntity;
 import course.factory.repository.MessageRepositoryFactory;
 import course.service.itf.MessageService;
 import java.util.ArrayList;

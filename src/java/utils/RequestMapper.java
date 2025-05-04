@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package utils;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -9,7 +5,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import java.lang.reflect.Field;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import exception.MappingException;
+import exception.utils.MappingException;
 
 public class RequestMapper {
 

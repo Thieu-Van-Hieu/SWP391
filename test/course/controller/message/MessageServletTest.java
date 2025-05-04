@@ -1,0 +1,172 @@
+package course.controller.message;
+
+import config.DBContext;
+import course.controller.MessageServlet;
+import course.dto.message.MessageRequestDTO;
+import course.dto.message.MessageResponseDTO;
+import course.entity.MessageEntity;
+import course.factory.repository.MessageRepositoryFactory;
+import course.repository.itf.MessageRepository;
+import exception.common.UnknownActionException;
+import exception.course.MessageNotFoundException;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
+import org.junit.After;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
+import testkit.HttpServletRequestSimulator;
+import testkit.HttpServletResponseSimulator;
+
+public class MessageServletTest {
+
+	DBContext db = DBContext.getInstance();
+
+	@Before
+	public void beginTransaction() throws SQLException {
+		db.setDatabaseTest();
+		db.getConnection().setAutoCommit(false);
+	}
+
+	@After
+	public void rollbackTransaction() throws SQLException {
+		if (db.getConnection() != null && !db.getConnection().isClosed()) {
+			db.getConnection().rollback();
+			db.getConnection().close();
+		}
+	}
+
+	@Test
+	public void testUnknownActionException() throws Exception {
+		HttpServletRequestSimulator httpServletRequestSimulator = HttpServletRequestSimulator.builder().build();
+		HttpServletResponseSimulator httpServletResponseSimulator = HttpServletResponseSimulator.builder().build();
+
+		MessageServlet messageServlet = new MessageServlet();
+		Assert.assertThrows(UnknownActionException.class, () -> {
+			messageServlet.doGet(httpServletRequestSimulator.getRequest(), httpServletResponseSimulator.getResponse());
+		});
+
+		Assert.assertThrows(UnknownActionException.class, () -> {
+			messageServlet.doPost(httpServletRequestSimulator.getRequest(), httpServletResponseSimulator.getResponse());
+		});
+
+	}
+
+	@Test
+	public void testDoGetWrongParam() throws Exception {
+		HttpServletRequestSimulator httpServletRequestSimulator = HttpServletRequestSimulator.builder().addParam("action", "getAll").build();
+		HttpServletResponseSimulator httpServletResponseSimulator = HttpServletResponseSimulator.builder().build();
+
+		new MessageServlet().doGet(httpServletRequestSimulator.getRequest(), httpServletResponseSimulator.getResponse());
+
+		ArrayList<MessageResponseDTO> messageResponseDTOs = (ArrayList<MessageResponseDTO>) httpServletRequestSimulator.getRequest().getAttribute("messageResponseDTOs");
+
+		Assert.assertEquals(0, messageResponseDTOs.size());
+	}
+
+	@Test
+	public void testDoGetTrueParam() throws Exception {
+		HttpServletRequestSimulator httpServletRequestSimulator = HttpServletRequestSimulator.builder().addParam("action", "getAll").addParam("courseId", "1").build();
+		HttpServletResponseSimulator httpServletResponseSimulator = HttpServletResponseSimulator.builder().build();
+
+		new MessageServlet().doGet(httpServletRequestSimulator.getRequest(), httpServletResponseSimulator.getResponse());
+
+		ArrayList<MessageResponseDTO> messageResponseDTOs = (ArrayList<MessageResponseDTO>) httpServletRequestSimulator.getRequest().getAttribute("messageResponseDTOs");
+		
+		MessageRepository messageRepository = MessageRepositoryFactory.getMessageRepository();
+	
+		ArrayList<MessageResponseDTO> messageResponseDTOsExpected = new ArrayList<>(List.of(
+				new MessageResponseDTO(1, "Alice Nguyen", "Welcome to the course!", Timestamp.valueOf("2025-04-01 08:00:00.000")),
+				new MessageResponseDTO(2, "Bob Tran", "Thank you!", Timestamp.valueOf("2025-04-01 08:05:00.000"))
+		));
+		
+		Assert.assertEquals(messageResponseDTOsExpected, messageResponseDTOs);
+	}
+
+	@Test
+	public void testDoPostWrongParam() throws Exception {
+		HttpServletRequestSimulator httpServletRequestSimulator = HttpServletRequestSimulator.builder().addParam("action", "sendMessage").build();
+		HttpServletResponseSimulator httpServletResponseSimulator = HttpServletResponseSimulator.builder().build();
+
+		new MessageServlet().doPost(httpServletRequestSimulator.getRequest(), httpServletResponseSimulator.getResponse());
+		Assert.assertNotNull(httpServletRequestSimulator.getRequest().getAttribute("error"));
+
+		httpServletRequestSimulator = HttpServletRequestSimulator.builder().addParam("action", "editMessage").build();
+
+		new MessageServlet().doPost(httpServletRequestSimulator.getRequest(), httpServletResponseSimulator.getResponse());
+		Assert.assertNotNull(httpServletRequestSimulator.getRequest().getAttribute("error"));
+
+		httpServletRequestSimulator = HttpServletRequestSimulator.builder().addParam("action", "deleteMessage").build();
+
+		new MessageServlet().doPost(httpServletRequestSimulator.getRequest(), httpServletResponseSimulator.getResponse());
+		Assert.assertNotNull(httpServletRequestSimulator.getRequest().getAttribute("error"));
+	}
+
+	@Test
+	public void testDoPostSendMessage() throws Exception {
+		HttpServletRequestSimulator httpServletRequestSimulator = HttpServletRequestSimulator.builder().addParam("action", "sendMessage").addParam("courseId", "1").addParam("memberId", "1").addParam("content", "Xin chao").build();
+		HttpServletResponseSimulator httpServletResponseSimulator = HttpServletResponseSimulator.builder().build();
+
+		new MessageServlet().doPost(httpServletRequestSimulator.getRequest(), httpServletResponseSimulator.getResponse());
+
+		Assert.assertNotNull(httpServletRequestSimulator.getRequest().getAttribute("success"));
+
+		try {
+			String sql = """
+				select top 1
+                from messages
+                order by sendAt desc
+                """;
+			PreparedStatement statement = db.getConnection().prepareStatement(sql);
+			ResultSet rs = statement.executeQuery();
+			Assert.assertTrue(rs.next());
+			if (rs.next()) {
+				Assert.assertEquals(1, rs.getInt("courseId"));
+				Assert.assertEquals(1, rs.getInt("userId"));
+				Assert.assertEquals("Xin chao", rs.getString("courseId"));
+			}
+		} catch (Exception e) {
+		}
+	}
+
+	@Test
+	public void testDoPostEditMessage() throws Exception {
+		HttpServletRequestSimulator httpServletRequestSimulator = HttpServletRequestSimulator.builder().addParam("action", "editMessage").addParam("messageId", "1").addParam("content", "Xin chao").build();
+		HttpServletResponseSimulator httpServletResponseSimulator = HttpServletResponseSimulator.builder().build();
+
+		new MessageServlet().doPost(httpServletRequestSimulator.getRequest(), httpServletResponseSimulator.getResponse());
+
+		Assert.assertNotNull(httpServletRequestSimulator.getRequest().getAttribute("success"));
+
+		MessageRequestDTO messageRequestDTO = new MessageRequestDTO();
+		messageRequestDTO.setMessageId(1);
+
+		MessageRepository messageRepository = MessageRepositoryFactory.getMessageRepository();
+		MessageEntity messageEntity = messageRepository.getMessageByMessageId(messageRequestDTO);
+
+		Assert.assertEquals("Xin chao", messageEntity.getContent());
+	}
+
+	@Test
+	public void testDoPostDeleteMessage() throws Exception {
+		HttpServletRequestSimulator httpServletRequestSimulator = HttpServletRequestSimulator.builder().addParam("action", "deleteMessage").addParam("messageId", "1").build();
+		HttpServletResponseSimulator httpServletResponseSimulator = HttpServletResponseSimulator.builder().build();
+
+		new MessageServlet().doPost(httpServletRequestSimulator.getRequest(), httpServletResponseSimulator.getResponse());
+
+		Assert.assertNotNull(httpServletRequestSimulator.getRequest().getAttribute("success"));
+
+		MessageRequestDTO messageRequestDTO = new MessageRequestDTO();
+		messageRequestDTO.setMessageId(1);
+
+		MessageRepository messageRepository = MessageRepositoryFactory.getMessageRepository();
+		Assert.assertThrows(MessageNotFoundException.class, () -> {
+			messageRepository.getMessageByMessageId(messageRequestDTO);
+		});
+	}
+
+}
