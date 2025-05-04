@@ -1,4 +1,4 @@
-package exception;
+package exception.utils;
 
 public class MappingException extends RuntimeException {
 
