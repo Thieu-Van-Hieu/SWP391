@@ -2,18 +2,23 @@ package utils.tablemapper;
 
 import config.DBContext;
 import exception.utils.tablemapper.FailToCreateInstanceException;
+import exception.utils.tablemapper.FailToInsert;
 import exception.utils.tablemapper.IdColumnNotFoundException;
 import exception.utils.tablemapper.ObjectNotFoundException;
 import exception.utils.tablemapper.UnsupportedTypeException;
 import java.lang.reflect.Field;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import utils.tablemapper.annotation.Column;
 import utils.tablemapper.annotation.Table;
 
 public class TableMapper {
+
+    private static Connection connection = DBContext.getInstance().getConnection();
 
     private static String getNameOfTable(Class<?> clazz) {
         if (clazz.isAnnotationPresent(Table.class) && !clazz.getAnnotation(Table.class).name().isBlank()) {
@@ -31,7 +36,7 @@ public class TableMapper {
         return field.getName();
     }
 
-    private static void setDataColumn(int index, Object value, PreparedStatement statement) throws SQLException {
+    private static void setDataSql(int index, Object value, PreparedStatement statement) throws SQLException {
         String typeName = value.getClass().getName();
 
         switch (typeName) {
@@ -95,11 +100,11 @@ public class TableMapper {
         };
     }
 
-    private static void setDataColumns(Field fields[], Object source, PreparedStatement statement) throws Exception {
+    private static void setDataSql(Field fields[], Object source, PreparedStatement statement) throws Exception {
         for (int i = 1; i <= fields.length; i++) {
             Field field = fields[i - 1];
             field.setAccessible(true);
-            setDataColumn(i, field.get(source), statement);
+            TableMapper.setDataSql(i, field.get(source), statement);
         }
     }
 
@@ -163,8 +168,6 @@ public class TableMapper {
     }
 
     public static <T> T get(Class<T> clazz, Object id) throws Exception {
-        DBContext db = DBContext.getInstance();
-
         String tableName = getNameOfTable(clazz);
 
         Field[] fields = clazz.getDeclaredFields();
@@ -180,11 +183,11 @@ public class TableMapper {
             select += fieldName + (i < fields.length - 1 ? ", " : "");
         }
 
-        String where = idFieldName + " = ? ";
+        String where = idFieldName + " = ?";
 
         String sql = String.format("select %s from %s where %s", select, tableName, where);
-        PreparedStatement statement = db.getConnection().prepareStatement(sql);
-        setDataColumn(1, id, statement);
+        PreparedStatement statement = connection.prepareStatement(sql);
+        TableMapper.setDataSql(1, id, statement);
 
         ResultSet rs = statement.executeQuery();
         if (rs.next()) {
@@ -195,8 +198,6 @@ public class TableMapper {
     }
 
     public static <T> ArrayList<T> getAll(Class<T> clazz, Field[] filterFields, Object source) throws Exception {
-        DBContext db = DBContext.getInstance();
-
         String tableName = getNameOfTable(clazz);
 
         Field[] fields = clazz.getDeclaredFields();
@@ -214,24 +215,113 @@ public class TableMapper {
             Field field = filterFields[i];
             String fieldName = getNameOfField(field);
 
-            where += fieldName + " = ? " + (i < filterFields.length - 1 ? " and " : "");
+            where += fieldName + " = ?" + (i < filterFields.length - 1 ? " and " : "");
         }
 
         String sql = String.format("select %s from %s where %s", select, tableName, where);
-        PreparedStatement statement = db.getConnection().prepareStatement(sql);
-        setDataColumns(filterFields, source, statement);
-        
+        PreparedStatement statement = connection.prepareStatement(sql);
+        setDataSql(filterFields, source, statement);
+
         ResultSet rs = statement.executeQuery();
-        
+
         ArrayList<T> objects = new ArrayList<>();
         while (rs.next()) {
             objects.add(getDataFromColumns(clazz, rs));
         }
-        
-        if (objects.isEmpty())
+
+        if (objects.isEmpty()) {
             throw new ObjectNotFoundException(clazz);
-        
+        }
+
         return objects;
     }
 
+    public static int create(Object object) throws Exception {
+        Class<?> objectClass = object.getClass();
+
+        String tableName = getNameOfTable(objectClass);
+
+        Field fields[] = getNonIdField(objectClass.getDeclaredFields());
+
+        String insertColumn = "";
+        String value = "";
+        for (int i = 0; i < fields.length; i++) {
+            Field field = fields[i];
+            insertColumn += getNameOfField(field) + (i < fields.length - 1 ? ", " : "");
+            value += "?" + (i < fields.length - 1 ? ", " : "");
+        }
+
+        String sql = String.format("insert into %s (%s) values (%s)", tableName, insertColumn, value);
+        PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+        setDataSql(fields, object, statement);
+        statement.executeUpdate();
+        ResultSet rs = statement.getGeneratedKeys();
+        if (rs.next()) {
+            return rs.getInt(1);
+        }
+
+        throw new FailToInsert();
+    }
+    
+    public static boolean update(Object object) throws Exception {
+        Class<?> objectClass = object.getClass();
+        
+        String tableName = getNameOfTable(objectClass);
+        Field fields[] = objectClass.getDeclaredFields();
+        Field nonIdfields[] = getNonIdField(fields);
+        
+        String updateColumn = "";
+        for (int i = 0; i < nonIdfields.length; i++) {
+            Field field = nonIdfields[i];
+            String fieldName = getNameOfField(field);
+            
+            updateColumn += fieldName + " = ?" + (i <nonIdfields.length - 1 ? ", " : "");
+        }
+        
+        Field idField = getIdField(fields);
+        idField.setAccessible(true);
+        String idFieldName = getNameOfField(idField);
+        String where = idFieldName + " = ?";
+        
+        String sql = String.format("update %s set %s where %s", tableName, updateColumn, where);
+        PreparedStatement statement = connection.prepareStatement(sql);
+        setDataSql(nonIdfields, object, statement);
+        setDataSql(fields.length, idField.get(object), statement);
+        
+        return statement.executeUpdate() > 0;
+    }
+    
+    public static boolean delete(Object object) throws Exception {
+        Class<?> objectClass = object.getClass();
+        
+        String tableName = getNameOfTable(objectClass);
+        Field fields[] = objectClass.getDeclaredFields();
+        
+        Field idField = getIdField(fields);
+        idField.setAccessible(true);
+        String idFieldName = getNameOfField(idField);
+        String where = idFieldName + " = ?";
+        
+        String sql = String.format("delete from %s where %s", tableName, where);
+        PreparedStatement statement = connection.prepareStatement(sql);
+        setDataSql(1, idField.get(object), statement);
+        
+        return statement.executeUpdate() > 0;
+    }
+
+    public static void beginTransaction() throws Exception {
+        connection.setAutoCommit(false);
+    }
+
+    public static void commitTransaction() throws Exception {
+        connection.commit();
+    }
+
+    public static void rollbackTransaction() throws Exception {
+        connection.rollback();
+    }
+
+    public static void close() throws Exception {
+        connection.close();
+    }
 }
